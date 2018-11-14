@@ -15,4 +15,5 @@ page of worksheet?
 ```
 If the identified experimental type is epsc, the program will plot the spontaneous activity and then prompt the user to alter the y range if necessary:
 
-![initial epsc plot] (/epsc1.png)
+![initial epsc plot] (patch_clamp_analysis/readme_screenshots/epsc1.png)
+      
