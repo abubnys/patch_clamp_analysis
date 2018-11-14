@@ -15,5 +15,25 @@ page of worksheet?
 ```
 If the identified experimental type is epsc, the program will plot the spontaneous activity and then prompt the user to alter the y range if necessary:
 
-![initial epsc plot] (patch_clamp_analysis/readme_screenshots/epsc1.png)
+![initial epsc plot](/readme_screenshots/epsc1.png)
       
+```
+Y limit range
+```
+This plot is fairly zoomed in on the data, so in order to fix the scaling to cover a range of ~500mV, select a range closer to [-180 320]
+
+![y range fixed epsc plot](/readme_screenshots/epsc2.png)
+
+This is a pretty good looking range, so we agree to keep it
+```
+ok? (y=1, n=0): 1
+```
+You also have the option to change the title of the plot, if so desired. Or to skip this step, simply click `return`
+```
+change title? (leave blank to keep it the same)
+```
+And then, save the output figure into the directory specified by `path`
+```
+save? (y=1, n=0) 
+```
+
