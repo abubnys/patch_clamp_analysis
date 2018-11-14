@@ -14,6 +14,5 @@ Before running the script, specify the location of the excel spreadsheets contai
 page of worksheet? 
 ```
 If the identified experimental type is epsc, the program will plot the spontaneous activity and then prompt the user to alter the y range if necessary
-![initial epsc plot] 
-(https://github.com/abubnys/patch_clamp_analysis/readme_screenshots/epsc1.png)
+![initial epsc plot] (/readme_screenshots/epsc1.png)
 
