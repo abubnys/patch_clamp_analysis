@@ -37,3 +37,45 @@ And then, save the output figure into the directory specified by `path`
 save? (y=1, n=0) 
 ```
 
+If the identified data type is I-clamp, the program will plot the full current clamp trace and allow the user to change the plot title and save the result:
+
+![I-clamp](/readme_screenshots/iclamp.png)
+
+If the identified data type is NTX, the program will prompt the user to specify which page of the labels spreadsheet contains the relevant tags:
+```
+page of label spreadhseet to use?: 1
+```
+The raw data the is plotted looks pretty ugly, so the program prompts the user to specify what range of x values to plot
+![ugly ntx](/readme_screenshots/ntx1.png)
+```
+range for data
+```
+The start point should be somewhere near the beginning of the actual recording:
+
+![start point ntx](/readme_screenshots/ntx2.png)
+
+The end point should be somewhere near the end of the recording:
+
+![end point ntx](/readme_screenshots/ntx3.png)
+
+So, we specify the program to plot within the range `[11780 129500]`
+
+![good ntx range](/readme_screenshots/ntx4.png)
+
+```
+ok? (y=1, n=0): 1
+```
+And then fix the y range to cover approximately 500mV again
+```
+y limit range: [-220 250]
+```
+
+![ntx range](/readme_screenshots/ntx5.png)
+
+Finally, the program puts in the time points and labels for the different drug injections:
+
+![labeled ntx](/readme_screenshots/ntx6.png)
+
+
+
+
