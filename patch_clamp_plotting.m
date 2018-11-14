@@ -24,7 +24,7 @@
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% specify data path and read designated sheet of excel file
-path = '/users/abubnys/Desktop/';
+path = '/users/abubnys/Desktop/Matlab_projects/patch_clamp_analysis/';
 page = input('page of worksheet? '); % worksheet in excel file
 raw_data = xlsread([path 'sample_patch_data.xlsx'],sprintf('Sheet%0.0f',page));
 
