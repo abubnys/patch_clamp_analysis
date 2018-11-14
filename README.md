@@ -76,6 +76,10 @@ Finally, the program puts in the time points and labels for the different drug i
 
 ![labeled ntx](/readme_screenshots/ntx6.png)
 
+Finally, if the identified data type is IV, the program will generate a figure with 2 panels:
 
+![IV plot](/readme_screenshots/IV.png)
+
+The top panel shows the raw data of all voltage clamp steps overlaid on top of each other, while the bottom panel shows the calculated IV plots for the sodium and fast and slow potassium currents.
 
 
