@@ -45,40 +45,45 @@ end
 % for drug injection, extract information about what drug was injected at
 % what time
 ntx = 0;
+do_label = 0;
 if epsc == 0 && iclamp == 0 && iv == 0
     ntx = 1;
-    label_page = input('page of label spreadsheet to use? '); 
-    fil = 'labels';
-    [num, txt, raw] = xlsread([path fil],label_page);
-    ntx_in = zeros(1,length(txt)-1);
-    if length(txt) > 2
-        for e = 2:length(txt)
-            A = sscanf(txt{e},['%f','%f']);
-            ntx_in(e-1) = A(2)*1000;
-        end
-        if rem(length(txt),2) == 1
-            A = textscan(txt{2},'%f \t %f \t %s%s');
-            B = strsplit(txt{3});
-            r_info = B{4};
+    if do_label == 1
+        label_page = input('page of label spreadsheet to use? ');
+        fil = 'labels';
+        [num, txt, raw] = xlsread([path fil],label_page);
+        ntx_in = zeros(1,length(txt)-1);
+        if length(txt) > 2
+            for e = 2:length(txt)
+                A = sscanf(txt{e},['%f','%f']);
+                ntx_in(e-1) = A(2)*1000;
+            end
+            if rem(length(txt),2) == 1
+                A = textscan(txt{2},'%f \t %f \t %s%s');
+                B = strsplit(txt{3});
+                r_info = B{4};
+            else
+                A = textscan(txt{3},'%f \t %f \t %s%s');
+                B = strsplit(txt{2},'     ');
+                r_infoA = strjoin([A{3} A{4}]);
+                r_info = [r_infoA ' ' B{3} ];
+            end
         else
-            A = textscan(txt{3},'%f \t %f \t %s%s');
-            B = strsplit(txt{2},'     ');
-            r_infoA = strjoin([A{3} A{4}]);
-            r_info = [r_infoA ' ' B{3} ];
+            A = strsplit(txt{3},'     ');
+            r_info = A{3};
+            ntx_in = A{2};
         end
-    else
-        A = strsplit(txt{3},'     ');
-        r_info = A{3};
-        ntx_in = A{2};
     end
     
-    nom = ['ntx(' page ')'];
+    nom = sprintf('ntx_(page%0.0f)',page);
     
-    injection_ntx = cell(1,length(txt));
-    injection_ntx{1} = '';
-    for e = 2:length(txt)
-        lin = strsplit(txt{e});
-        injection_ntx{e} = lin{4};
+    if do_label == 1
+        injection_ntx = cell(1,length(txt));
+        injection_ntx{1} = '';
+        for e = 2:length(txt)
+            lin = strsplit(txt{e});
+            injection_ntx{e} = lin{4};
+        end
     end
 end
 
@@ -155,9 +160,9 @@ if iv == 1
     Ikt_trc = trc4(290:320,2:14); 
     Iks_trc = trc4(360:380,2:14);
     
-    Ina = min(Ina_trc);
     Ikt = max(Ikt_trc);
     Iks = mean(Iks_trc);
+    Ina = min(Ina_trc)-Iks;
     Ikf = Ikt-Iks;
     Ikf = Ikf';
     Iks = Iks';
@@ -206,34 +211,36 @@ if ntx == 1
     
     %ntx_in = input('NTX injected ');
     hold on
-    if length(ntx_in) > 1
-        if rem(length(ntx_in),2) == 0
-            ntx_legend{1} = '';
-            c = 1;
-            for e = 1:2:length(ntx_in)
-                plot([ntx_in(e)+10000 ntx_in(e)+10000],yrng,'g','LineWidth',2)
-                ntx_legend{c+1} = injection_ntx{e+1};
-                c = c+1;
+    if do_label == 1
+        if length(ntx_in) > 1
+            if rem(length(ntx_in),2) == 0
+                ntx_legend{1} = '';
+                c = 1;
+                for e = 1:2:length(ntx_in)
+                    plot([ntx_in(e)+10000 ntx_in(e)+10000],yrng,'g','LineWidth',2)
+                    ntx_legend{c+1} = injection_ntx{e+1};
+                    c = c+1;
+                end
+                for e = 2:2:length(ntx_in)
+                    plot([ntx_in(e)+10000 ntx_in(e)+10000],yrng,'r','LineWidth',2)
+                    ntx_legend{c+1} = injection_ntx{e+1};
+                    c = c+1;
+                end
+                legend(ntx_legend)
+            else
+                plot([ntx_in(1)+10000 ntx_in(1)+10000],yrng,'b','LineWidth',2)
+                for e = 2:2:length(ntx_in)
+                    plot([ntx_in(e)+10000 ntx_in(e)+10000],yrng,'g','LineWidth',2)
+                end
+                for e = 3:2:length(ntx_in)
+                    plot([ntx_in(e)+10000 ntx_in(e)+10000],yrng,'r','LineWidth',2)
+                end
+                legend(injection_ntx)
             end
-            for e = 2:2:length(ntx_in)
-                plot([ntx_in(e)+10000 ntx_in(e)+10000],yrng,'r','LineWidth',2)
-                ntx_legend{c+1} = injection_ntx{e+1};
-                c = c+1;
-            end
-            legend(ntx_legend)
         else
             plot([ntx_in(1)+10000 ntx_in(1)+10000],yrng,'b','LineWidth',2)
-            for e = 2:2:length(ntx_in)
-                plot([ntx_in(e)+10000 ntx_in(e)+10000],yrng,'g','LineWidth',2)
-            end
-            for e = 3:2:length(ntx_in)
-                plot([ntx_in(e)+10000 ntx_in(e)+10000],yrng,'r','LineWidth',2)
-            end
             legend(injection_ntx)
         end
-    else
-        plot([ntx_in(1)+10000 ntx_in(1)+10000],yrng,'b','LineWidth',2)
-        legend(injection_ntx)
     end
     title(r_info)
 end
@@ -251,4 +258,4 @@ else
     disp('figure not saved')
 end
 
-close all
+%close all
